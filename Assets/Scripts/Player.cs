@@ -5,38 +5,79 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     
-    [SerializeField] float movementForce = 2000;
-    [SerializeField] float jumpForce = 1000;
-    [SerializeField] float jumpMultiplier = 100;
+    
 
-    public bool grounded = true;
+    public bool isGrounded;
+    public float speed;
+    public float jumpForce;
+    private float moveInput;
 
-    Rigidbody2D rbd2;
+    public Transform feetPos;
+    private Rigidbody2D rb2d;
+    public float checkRadius;
+    public LayerMask whatIsGround;
+
+    private float jumpTimeCounter;
+    public float jumpTime;
+    private bool isJumping;
 
     void Start()
     {
-        rbd2 = GetComponent<Rigidbody2D>();
+        rb2d = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    private void FixedUpdate() 
     {
-        if(Input.GetKey(KeyCode.RightArrow))
-        {
-            rbd2.AddForce(new Vector2(movementForce * Time.deltaTime ,0));
-        }
+        moveInput = Input.GetAxis("Horizontal");
+        rb2d.velocity = new Vector2(moveInput * speed, rb2d.velocity.y);   
 
-        if(Input.GetKey(KeyCode.LeftArrow))
-        {
-            rbd2.AddForce(new Vector2(-movementForce * Time.deltaTime ,0));
-        }
-
-        if(Input.GetKeyDown(KeyCode.Space) && grounded)
-        {
-            rbd2.AddForce(new Vector2(0, 10 * jumpMultiplier * jumpForce * Time.deltaTime));
-            
-        }
-
-
+        Flip();    
     }
+
+    private void Update() {
+        isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
+
+        if( isGrounded == true && Input.GetKeyDown(KeyCode.Space))
+        {
+            isJumping = true;
+            jumpTimeCounter = jumpTime;
+            rb2d.velocity = Vector2.up * jumpForce;
+        }
+
+        if(Input.GetKey(KeyCode.Space) && isJumping == true)
+        {
+            if(jumpTimeCounter > 0)
+            {
+                 rb2d.velocity = Vector2.up * jumpForce;
+                 jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                isJumping = false;
+            }
+        }
+
+        if(Input.GetKeyUp(KeyCode.Space))
+        {
+            isJumping = false;
+        }
+    }
+
+    private void Flip()
+    {
+        if(rb2d.velocity.x>0)
+        {
+            transform.localScale = new Vector3(1,1,1);
+        }
+        else if(rb2d.velocity.x < 0)
+        {
+            transform.localScale = new Vector3(-1,1,1);  
+        }
+        else{}
+    }
+
+
+      
+       
 }

@@ -26,6 +26,9 @@ public class Player : MonoBehaviour
     public Dash dash;
     public bool dashAbility;
 
+    public ThrowThorn throwThorn;
+    public bool throwThornAbility;
+
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
@@ -68,6 +71,15 @@ public class Player : MonoBehaviour
         else
         {
             dash.enabled =false;
+        }
+
+        if(throwThornAbility)
+        {
+            throwThorn.enabled = true;
+        }
+        else
+        {
+            throwThorn.enabled =false;
         }
 
     }
@@ -122,6 +134,12 @@ public class Player : MonoBehaviour
             transform.localScale = new Vector3(-1,1,1);  
         }
         else{}
+    }
+
+    public float GetPlayersDirection()
+    {
+        float direction = transform.localScale.x;
+        return direction;
     }
 
 

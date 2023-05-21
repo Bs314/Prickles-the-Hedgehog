@@ -449,7 +449,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -651,6 +651,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1333756758}
   - component: {fileID: 1333756757}
+  - component: {fileID: 1333756759}
   - component: {fileID: 1333756756}
   - component: {fileID: 1333756755}
   m_Layer: 0
@@ -717,7 +718,10 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  doubleJump: 4
   jumpTime: 0.15
+  dash: {fileID: 1333756759}
+  dashAbility: 1
 --- !u!4 &1333756758
 Transform:
   m_ObjectHideFlags: 0
@@ -735,6 +739,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1333756759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1333756754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9eda6902b6aaa724ab84329b5236e301, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dashDistance: 3
+  dashTime: 0.1
+  isDashing: 0
+  rb: {fileID: 1333756755}
 --- !u!1 &1528244253
 GameObject:
   m_ObjectHideFlags: 0

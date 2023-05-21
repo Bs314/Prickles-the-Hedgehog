@@ -16,41 +16,85 @@ public class Player : MonoBehaviour
     private Rigidbody2D rb2d;
     public float checkRadius;
     public LayerMask whatIsGround;
-
+    
+    public int doubleJump = 2;
+    private int doubleJumpCounter;
     private float jumpTimeCounter;
     public float jumpTime;
     private bool isJumping;
 
+    public Dash dash;
+    public bool dashAbility;
+
     void Start()
     {
         rb2d = GetComponent<Rigidbody2D>();
+        dash.enabled = false;
     }
 
 
     private void FixedUpdate() 
     {
-        moveInput = Input.GetAxis("Horizontal");
-        rb2d.velocity = new Vector2(moveInput * speed, rb2d.velocity.y);   
+        if(dashAbility)
+        {
+            if(dash.isDashing)
+            {
+
+            }
+            else
+            {
+                moveInput = Input.GetAxis("Horizontal");
+                rb2d.velocity = new Vector2(moveInput * speed, rb2d.velocity.y);
+            }
+        }
+        else
+        {
+            moveInput = Input.GetAxis("Horizontal");
+            rb2d.velocity = new Vector2(moveInput * speed, rb2d.velocity.y);
+        }
+           
 
         Flip();    
     }
 
-    private void Update() {
+    private void Update()
+    {
+        Jump();
+
+        if(dashAbility)
+        {
+            dash.enabled = true;
+        }
+        else
+        {
+            dash.enabled =false;
+        }
+
+    }
+
+    private void Jump()
+    {
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
 
-        if( isGrounded == true && Input.GetKeyDown(KeyCode.Space))
+        if(isGrounded)
+        {
+            doubleJumpCounter = doubleJump;
+        }
+
+        if ((isGrounded == true || doubleJumpCounter > 0) && Input.GetKeyDown(KeyCode.Space))
         {
             isJumping = true;
             jumpTimeCounter = jumpTime;
             rb2d.velocity = Vector2.up * jumpForce;
+            doubleJumpCounter--;
         }
 
-        if(Input.GetKey(KeyCode.Space) && isJumping == true)
+        if (Input.GetKey(KeyCode.Space) && isJumping == true)
         {
-            if(jumpTimeCounter > 0)
+            if (jumpTimeCounter > 0)
             {
-                 rb2d.velocity = Vector2.up * jumpForce;
-                 jumpTimeCounter -= Time.deltaTime;
+                rb2d.velocity = Vector2.up * jumpForce;
+                jumpTimeCounter -= Time.deltaTime;
             }
             else
             {
@@ -58,7 +102,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyUp(KeyCode.Space))
+        if (Input.GetKeyUp(KeyCode.Space))
         {
             isJumping = false;
         }
@@ -66,11 +110,14 @@ public class Player : MonoBehaviour
 
     private void Flip()
     {
-        if(rb2d.velocity.x>0)
+
+        float direction = Input.GetAxisRaw("Horizontal");
+
+        if(direction > 0)
         {
             transform.localScale = new Vector3(1,1,1);
         }
-        else if(rb2d.velocity.x < 0)
+        else if(direction < 0)
         {
             transform.localScale = new Vector3(-1,1,1);  
         }

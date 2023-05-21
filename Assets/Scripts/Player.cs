@@ -88,17 +88,20 @@ public class Player : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
 
-        if(isGrounded)
-        {
-            doubleJumpCounter = doubleJump;
-        }
+        
 
         if ((isGrounded == true || doubleJumpCounter > 0) && Input.GetKeyDown(KeyCode.Space))
         {
+
+            if(isGrounded)
+            {
+                doubleJumpCounter = doubleJump;
+            }
             isJumping = true;
             jumpTimeCounter = jumpTime;
             rb2d.velocity = Vector2.up * jumpForce;
             doubleJumpCounter--;
+            Debug.Log(doubleJumpCounter);
         }
 
         if (Input.GetKey(KeyCode.Space) && isJumping == true)

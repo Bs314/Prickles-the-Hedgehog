@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39c290312f5f2b945859770b18c35d18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  throwSpeed: 60
+  throwSpeed: 50
   isItTouch: 0
   deathTime: 10
 --- !u!50 &2454328079911883936

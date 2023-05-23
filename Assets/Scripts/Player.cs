@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     {
         rb2d = GetComponent<Rigidbody2D>();
         dash.enabled = false;
+        
     }
 
 
@@ -88,25 +89,22 @@ public class Player : MonoBehaviour
     {
         isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
 
-         
         
-
-        if ((isGrounded == true || doubleJumpCounter >0) && Input.GetKeyDown(KeyCode.Space))
+        
+        
+        if ((isGrounded == true || doubleJumpCounter > 0) && Input.GetKeyDown(KeyCode.Space))
         {
-            
+
             if(isGrounded)
             {
                 doubleJumpCounter = doubleJump;
-                Debug.Log(doubleJumpCounter);
             }
-           
+            
             isJumping = true;
             jumpTimeCounter = jumpTime;
             rb2d.velocity = Vector2.up * jumpForce;
             doubleJumpCounter--;
-            
         }
-
         
 
         if (Input.GetKey(KeyCode.Space) && isJumping == true)

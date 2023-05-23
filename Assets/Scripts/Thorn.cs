@@ -24,7 +24,7 @@ public class Thorn : MonoBehaviour
         
         direction = player.GetPlayersDirection();
         rb.velocity = new Vector2 (throwSpeed * direction, 0);
-
+        Invoke("ChangeTriggerState",0.01f);
         
     }
 
@@ -40,15 +40,24 @@ public class Thorn : MonoBehaviour
     }
 
     private void OnTriggerEnter2D(Collider2D other) {
-        if(other.tag == "Ground")
+        
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        if(other.gameObject.tag == "Ground")
         {
             rb.velocity = Vector2.zero;
-            box.isTrigger = false;
+            
             rb.bodyType = RigidbodyType2D.Static;
             deathTime = 6;
             Destroy(gameObject, 5f);
-        }
-        
+        } 
+    }
+
+    void ChangeTriggerState()
+    {
+        box.isTrigger = false;
     }
 
     

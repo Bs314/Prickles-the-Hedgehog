@@ -23,9 +23,6 @@ public class Bees : MonoBehaviour
     float randomX;
     float randomY;
 
-    bool isReached = false;
-    bool isMoving = false;
-
     void Start()
     {
         
